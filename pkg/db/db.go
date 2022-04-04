@@ -15,19 +15,14 @@ type DatabaseConnection struct {
 	DB *gorm.DB
 }
 
-func Connect() DatabaseConnection {
-	cfg, err := config.LoadConfig()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func Connect(cfg *config.Config) DatabaseConnection {
+	log.Println("Database Name", cfg.DatabaseName)
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/London",
-		cfg.Database.Host,
-		cfg.Database.Username,
-		cfg.Database.Password,
-		cfg.Database.Name,
-		cfg.Database.Port,
+		cfg.DatabaseHost,
+		cfg.DatabaseUsername,
+		cfg.DatabasePassword,
+		cfg.DatabaseName,
+		cfg.DatabasePort,
 	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
