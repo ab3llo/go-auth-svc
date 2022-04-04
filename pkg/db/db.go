@@ -1,0 +1,52 @@
+package db
+
+import (
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/ab3llo/go-auth/pkg/config"
+	"github.com/ab3llo/go-auth/pkg/models"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
+
+type DatabaseConnection struct {
+	DB *gorm.DB
+}
+
+func Connect() DatabaseConnection {
+	cfg, err := config.LoadConfig()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/London",
+		cfg.Database.Host,
+		cfg.Database.Username,
+		cfg.Database.Password,
+		cfg.Database.Name,
+		cfg.Database.Port,
+	)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	sqlDB, err := db.DB()
+
+	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
+	sqlDB.SetMaxIdleConns(5)
+
+	// SetMaxOpenConns sets the maximum number of open connections to the database.
+	sqlDB.SetMaxOpenConns(10)
+
+	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
+	sqlDB.SetConnMaxLifetime(30 * time.Minute)
+
+	db.AutoMigrate(&models.User{})
+
+	return DatabaseConnection{db}
+}
