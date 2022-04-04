@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/ab3llo/go-auth/pkg/auth/pb"
 	"github.com/ab3llo/go-auth/pkg/db"
 	"github.com/ab3llo/go-auth/pkg/models"
+	"github.com/ab3llo/go-auth/pkg/pb"
 	"github.com/ab3llo/go-auth/pkg/utils"
 	"github.com/google/uuid"
 )

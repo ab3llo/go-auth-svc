@@ -5,9 +5,9 @@ import (
 	"log"
 	"net"
 
-	"github.com/ab3llo/go-auth/pkg/auth/pb"
 	"github.com/ab3llo/go-auth/pkg/config"
 	"github.com/ab3llo/go-auth/pkg/db"
+	"github.com/ab3llo/go-auth/pkg/pb"
 	"github.com/ab3llo/go-auth/pkg/services"
 	"github.com/ab3llo/go-auth/pkg/utils"
 	"google.golang.org/grpc"
